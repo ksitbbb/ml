@@ -1,35 +1,27 @@
-import numpy as np
-import pandas as pd
-data = pd.read_csv('1finds.csv')
-print(data)
-concepts=data.iloc[:,0:-1].values
-print("-------------------------------------------")
-print (concepts)
-print("----------------------------------------")
-target = data.iloc[:,-1].values
-print (target)
-def train(concepts,target):
-
-   count=0
-   specific_h = concepts[0]
-   for i,h in enumerate(concepts):
-
-      print(i)
-      print(h)
-      if target[i] == "Yes":
-
-         for x in range(len(specific_h)):
-            if h[x] == specific_h[x]:
-               pass
-            else:
-               specific_h[x] = "?"
-
-         count = count + 1
-         print (f"Hypothesis after sample number:{count} processed: {specific_h}")
-      else:
-         pass
-         count = count + 1
-         print (f"Negative sample number:{count} Same Hypothesis: {specific_h}")
-
-   return specific_h
-specific_h=train(concepts,target)
+import csv
+def loadcsv(filename):
+    lines=csv.reader(open(filename,"rt"))
+    dataset=list(lines)
+    return dataset
+attributes=['sky','temp','humidity','wind','water','forecast']
+print('attributes=',attributes)
+num_attributes=len(attributes)
+print(num_attributes)
+filename="finds.csv"
+dataset=loadcsv(filename)
+print(dataset)
+hypothesis=['0']*num_attributes
+print("initial hypothesis")
+print(hypothesis)
+print("the hypothesis are")
+for i in range(len(dataset)):
+    target=dataset[i][-1]
+    if(target=='yes'):
+        for j in range(num_attributes):
+            if(hypothesis[j]=='0'):
+                hypothesis[j]=dataset[i][j]
+            if(hypothesis[j]!=dataset[i][j]):
+                    hypothesis[j]='?'
+    print(i+1,'=',hypothesis)
+print("final hypothesis")
+print(hypothesis)
